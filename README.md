@@ -10,10 +10,10 @@ Curated repository of materials from four advanced control disciplines:
 
 ## Repository layout
 
-- `adaptative-control/` — MRAC, system identification, and exam/assignment notebooks
-- `linear-control/` — state-space analysis, controllability/observability, LQR
-- `digital-control/` — sampling, discrete-time design, labs and per-class notebooks
-- `mimo-control-systems/` — SISO, MIMO, LQR, MPC, kalman-filters
+- `adaptative-control/`: MRAC, system identification, and exam/assignment notebooks
+- `linear-control/`: state-space analysis, controllability/observability, LQR
+- `digital-control/`: sampling, discrete-time design, labs and per-class notebooks
+- `mimo-control-systems/`: SISO, MIMO, LQR, MPC, kalman-filters
 
 ## Run notebooks
 
@@ -29,7 +29,7 @@ jupyter lab
 - Adaptive: MRAC, parameter estimation, exam solutions
 - Linear: LTI state-space design, observers, optimal control
 - Digital: discrete design workflows, lab artifacts
-- Control Systems (PhD): controller synthesis and KF basics
+- Control Systems (PhD): controller synthesis for MIMO projects
 
 ## License
 
