@@ -7,15 +7,13 @@ Curated repository of materials from four advanced control disciplines:
 - SEL0359 — Digital Control
 - SEM5928 — Control Systems
 
-Focus: concise, professional references and working notebooks. Code and notes are for academic use.
 
 ## Repository layout
 
-- AdaptiveControl/ — MRAC, system identification, and exam/assignment notebooks
-- LinearSystemsControl/ — state-space analysis, controllability/observability, LQR, projects
-- DigitalControl/ — sampling, discrete-time design, labs and per-class notebooks
-- ControlSystems/ — PhD-level topics; controllers and Kalman filtering
-- Assets/ — shared images and figures
+- `adaptative-control/` — MRAC, system identification, and exam/assignment notebooks
+- `linear-control/` — state-space analysis, controllability/observability, LQR
+- `digital-control/` — sampling, discrete-time design, labs and per-class notebooks
+- `mimo-control-systems/` — SISO, MIMO, LQR, MPC, kalman-filters
 
 ## Run notebooks
 
