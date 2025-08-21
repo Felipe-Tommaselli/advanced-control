@@ -1,21 +1,38 @@
 # Advanced Control
 
-Compiled from Advanced Control code, including: 
-- SEL0367-Adaptive Control (Undergrad)
-- SEL0326- Linear Systems Control (Undergrad)
-- SEL0359- Digital Control (Undergrad)
-- SEM5928- Control Systems (PhD)
+Curated repository of materials from four advanced control disciplines:
 
-All programs developed in the discipline were written in Python and are for educational purposes only.
+- SEL0367 — Adaptive Control
+- SEL0326 — Linear Systems Control
+- SEL0359 — Digital Control
+- SEM5928 — Control Systems
 
-## Goals
+Focus: concise, professional references and working notebooks. Code and notes are for academic use.
 
-Introduce the theoretical foundations and applications of adaptive control. Treat the various design approaches highlighting the different configurations of adaptive control and system identification.
-Present the basic techniques for analyzing control systems in state space form to prepare the student to develop control application projects.
-Introduce real-time control design techniques of dynamic systems and the use of the digital computer as part of the system to be studied, and implement control algorithms.
+## Repository layout
 
-## Summary program
+- AdaptiveControl/ — MRAC, system identification, and exam/assignment notebooks
+- LinearSystemsControl/ — state-space analysis, controllability/observability, LQR, projects
+- DigitalControl/ — sampling, discrete-time design, labs and per-class notebooks
+- ControlSystems/ — PhD-level topics; controllers and Kalman filtering
+- Assets/ — shared images and figures
 
-Concepts of probability and statistics. Gaussian input-output models. Models in state space form. Filtering. Parametric estimation. Self-adjusting regulators. Adaptive control systems based on the reference model technique. Applications and case studies.
-Controllability, observability and stability of dynamic systems. State feedback. State observers. State space realization of transfer matrices. Great control.
-Digital control system designs. CAD techniques for design. Optimal control methods. Data acquisition and interface components. Implementation of algorithms.
+## Run notebooks
+
+Recommended: Python 3.10+ with Jupyter and control libraries.
+
+```bash
+pip install jupyter numpy scipy matplotlib control slycot
+jupyter lab
+```
+
+## Highlights
+
+- Adaptive: MRAC, parameter estimation, exam solutions
+- Linear: LTI state-space design, observers, optimal control
+- Digital: discrete design workflows, lab artifacts
+- Control Systems (PhD): controller synthesis and KF basics
+
+## License
+
+See LICENSE for terms.
