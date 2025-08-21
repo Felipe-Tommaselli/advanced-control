@@ -1,10 +1,11 @@
 # Advanced Control
 
 Compiled from Advanced Control code, including: 
-- SEL0367-Adaptive Control
-- SEL0326-Linear Systems Control
-- SEL0359- Digital Control
- 
+- SEL0367-Adaptive Control (Undergrad)
+- SEL0326- Linear Systems Control (Undergrad)
+- SEL0359- Digital Control (Undergrad)
+- SEM5928- Control Systems (PhD)
+
 All programs developed in the discipline were written in Python and are for educational purposes only.
 
 ## Goals
