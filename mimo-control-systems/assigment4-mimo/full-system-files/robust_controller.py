@@ -78,7 +78,10 @@ class RobustController:
         # Diagnostic counters
         self.step_count = 0
         self.start_time = time.time()
-    
+        
+        self.printParams()
+        self.printPlantModel()
+        self.printControllerMatrices()
     
     def _load_synthesized_matrices(self):
         """
@@ -112,6 +115,10 @@ class RobustController:
                 raise ValueError(f"Ac must be square, got {self.Ac.shape}")
             if self.Bc.shape[0] != self.Ac.shape[0]:
                 raise ValueError(f"Bc rows must match Ac, got {self.Bc.shape}")
+            
+            print(f"[RobustController] Loaded synthesized matrices from: {filepath}")
+            print(f"  Controller order: {self.Ac.shape[0]}")
+            print(f"  Ac: {self.Ac.shape}, Bc: {self.Bc.shape}, Cc: {self.Cc.shape}, Dc: {self.Dc.shape}")
             
             return True
             
@@ -161,6 +168,64 @@ class RobustController:
             [self.p['Kp_y'] / v_ref, self.p['Kp_theta']]          # ω: proportional terms (positive)
         ])
     
+    def printPlantModel(self):
+        """Print the linearized plant model for μ-synthesis."""
+        v_ref = self.p['v_ref']
+        nu = self.p['nu']
+        mu = self.p['mu']
+        
+        print('\n' + '='*70)
+        print('LINEARIZED PLANT MODEL (for μ-synthesis)')
+        print('='*70)
+        print(f'Reference velocity (v_ref): {v_ref} m/s')
+        print(f'Angular skid coefficient (nu): {nu}')
+        print(f'Linear skid coefficient (mu): {mu}')
+        print(f'Sample time (dt): {self.p["dt"]} s')
+        print()
+        print('Continuous-time state-space (from [v, ω] to [y, θ]):')
+        print('  ẏ = v_ref * θ')
+        print('  θ̇ = nu * ω')
+        print()
+        print('Plant matrices A, B, C, D:')
+        A_plant = np.array([[0, v_ref], [0, 0]])
+        B_plant = np.array([[0, 0], [0, nu]])
+        C_plant = np.eye(2)
+        D_plant = np.zeros((2, 2))
+        print(f'  A = {A_plant.tolist()}')
+        print(f'  B = {B_plant.tolist()}')
+        print(f'  C = {C_plant.tolist()}')
+        print(f'  D = {D_plant.tolist()}')
+        print()
+        print('MATLAB code to create plant:')
+        print(f'  v_ref = {v_ref}; nu = {nu};')
+        print(f'  A = [0, {v_ref}; 0, 0];')
+        print(f'  B = [0, 0; 0, {nu}];')
+        print('  C = eye(2); D = zeros(2);')
+        print('  G = ss(A, B, C, D);')
+        print('='*70 + '\n')
+    
+    def printControllerMatrices(self):
+        """Print current controller matrices for verification."""
+        print('\n' + '='*70)
+        print('CONTROLLER STATE-SPACE MATRICES (K)')
+        print('='*70)
+        print('Controller order: 2 (PI structure)')
+        print()
+        print('Discrete-time controller:')
+        print('  x_c[k+1] = Ac * x_c[k] + Bc * e[k]')
+        print('  u[k] = Cc * x_c[k] + Dc * e[k]')
+        print()
+        print(f'  Ac = {self.Ac.tolist()}')
+        print(f'  Bc = {self.Bc.tolist()}')
+        print(f'  Cc = {self.Cc.tolist()}')
+        print(f'  Dc = {self.Dc.tolist()}')
+        print()
+        print('To replace with synthesized controller:')
+        print('  1. Run μ-synthesis in MATLAB: [K,~,~] = dksyn(P,2,2);')
+        print('  2. Discretize: Kd = c2d(K, dt, "tustin");')
+        print('  3. Export: [Ac,Bc,Cc,Dc] = ssdata(Kd);')
+        print('  4. Load into this controller')
+        print('='*70 + '\n')
     
     def updateParams(self, params):
         """Update controller parameters dynamically."""
@@ -171,8 +236,26 @@ class RobustController:
                     self.p[param] = params[param]
         self._setup_controller_matrices()
         return True
-
-
+    
+    def printParams(self):
+        print('\n' + '='*70)
+        print('ROBUST CONTROLLER PARAMETERS')
+        print('='*70)
+        print(f'  v_ref: {self.p["v_ref"]} m/s')
+        print(f'  nu (angular skid): {self.p["nu"]}')
+        print(f'  mu (linear skid): {self.p["mu"]}')
+        print(f'  dt: {self.p["dt"]} s')
+        print(f'  v_lin_max: {self.p["v_lin_max"]} m/s')
+        print(f'  v_ang_max: {self.p["v_ang_max"]} rad/s')
+        print(f'  v_max (wheel): {self.p["v_max"]} m/s')
+        print(f'  Lbase: {self.p["Lbase"]} m')
+        print('Controller gains:')
+        print(f'  Kp_y: {self.p["Kp_y"]}')
+        print(f'  Kp_theta: {self.p["Kp_theta"]}')
+        print(f'  Ki_y: {self.p["Ki_y"]}')
+        print(f'  Ki_theta: {self.p["Ki_theta"]}')
+        print('='*70 + '\n')
+    
     def reset(self):
         """Reset integral states."""
         self.x_c = np.zeros(2)
